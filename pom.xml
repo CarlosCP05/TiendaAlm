@@ -57,7 +57,8 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>${jwt.version}</version>
+            <!--<version>${jwt.version}</version> original | pero no se donde lo coge y no va-->
+            <version>4.5.0</version>
         </dependency>
 
         <dependency>
