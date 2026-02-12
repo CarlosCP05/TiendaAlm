@@ -22,9 +22,9 @@ public class Tienda {
     @Column(unique = true, nullable = false,  length = 20)
     private String nombre;
 
-    @Builder.Default //Poner los DateTime en almohadas o quitarlo de aquí también
+    @Builder.Default
     @Column(updatable = false, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Builder.Default
     private LocalDateTime updatedAt =  LocalDateTime.now();

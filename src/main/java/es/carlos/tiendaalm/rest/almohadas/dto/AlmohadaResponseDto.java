@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,4 +20,6 @@ public class AlmohadaResponseDto {
     private Integer grosor;
     private Tacto tacto;
     private String firmeza;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaActualizacion;
 }

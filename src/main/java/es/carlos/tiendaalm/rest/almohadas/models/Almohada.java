@@ -4,6 +4,8 @@ import es.carlos.tiendaalm.rest.tiendas.models.Tienda;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @ToString
 @Getter
@@ -29,6 +31,13 @@ public class Almohada {
     private Tacto tacto;
     @Column(nullable = false)
     private String firmeza;
+
+    @Builder.Default
+    @Column(updatable = false, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime fechaActualizacion = LocalDateTime.now();
 
     @Column(columnDefinition = "boolean default false")
     @Builder.Default
