@@ -1,0 +1,32 @@
+{% if page is empty %}
+<div class="alert alert-info text-center">
+  <i class="bi bi-info-circle"></i> No se han encontrado almohadas
+</div>
+{% else %}
+<table class="table table-striped" id="listaAlmohadas">
+  <tr>
+    <th>ID</th>
+    <th>Peso</th>
+    <th>Altura</th>
+    <th>Ancho</th>
+    <th>Grosor</th>
+    <th>Tacto</th>
+    <th>Firmeza</th>
+  </tr>
+  {% for almohada in page.content %}
+  <tr>
+    <td class="almohadaId">{{ almohada.id }}</td>
+    <td>{{ almohada.peso }} </td>
+    <td>{{ almohada.altura }}</td>
+    <td>{{ almohada.ancho }}</td>
+    <td>{{ almohada.grosor }}</td>
+    <td>{{ almohada.tacto }}</td>
+    <td>{{ almohada.firmeza }}</td>
+    <td><a href="/admin/almohadas/{{ almohada.id }}"><i class="bi bi-eye"></i></a>
+      <a href="/admin/almohadas/{{ almohada.id }}/edit"><i class="bi bi-pencil"></i></a>
+      <a class="borrarAlmohadaLink" href="#"><i class="bi bi-trash"></i></a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}

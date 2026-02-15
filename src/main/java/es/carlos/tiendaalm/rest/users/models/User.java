@@ -1,9 +1,11 @@
 package es.carlos.tiendaalm.rest.users.models;
 
+import es.carlos.tiendaalm.rest.almohadas.models.Almohada;
 import es.carlos.tiendaalm.rest.tiendas.models.Tienda;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
@@ -56,6 +58,11 @@ public class User implements UserDetails {
   @OneToOne
   @JoinColumn(name = "tienda_id")
   private Tienda tienda;
+
+  //Falta implementar, almohadas de usuario / tambien se le puede asignar su propio stock, ya vere
+  @OneToMany
+  @JoinColumn(name = "almohadas")
+  private List<Almohada> almohadas;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

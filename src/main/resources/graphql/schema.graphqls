@@ -1,0 +1,39 @@
+#Añadir las de Stock
+# --- CONSULTAS DISPONIBLES ---
+# Aqui se definen todas las operaciones de lectura que pueden hacer los clientes
+type Query {
+    almohadas: [Almohada!]!
+
+    almohadaById(id: ID!): Almohada
+
+    tiendas: [Tienda!]!
+
+    tiendaById(id: ID!): Tienda
+
+    tiendasByNombre(nombre: String!): [Tienda!]!
+}
+
+
+type Almohada {
+    id: ID!
+    peso: Integer!
+    altura: Integer!
+    ancho: Integer!
+    grosor: Integer!
+    tacto: String!
+    firmeza: String!
+    fechaCreacion: String!
+    fechaActualizacion: String!
+    isDeleted: Boolean!
+    # Stock: Stock!
+}
+
+
+type Titular {
+    id: ID!
+    nombre: String!
+    fechaCreacion: String!
+    updatedAt: String!
+    isDeleted: Boolean!
+    # Stock: Stock!
+}

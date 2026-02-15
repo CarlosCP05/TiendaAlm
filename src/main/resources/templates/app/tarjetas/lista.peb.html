@@ -1,0 +1,34 @@
+{% extends "fragments/layout" %}
+
+{% block body %}
+
+<!-- Lista de Almohadas -->
+{% if almohadas is empty %}
+<div class="alert alert-info text-center">
+  <i class="bi bi-info-circle"> No se han encontrado almohadas</i>
+</div>
+{% else %}
+<table class="table table-striped">
+  <tr>
+    <th>ID</th>
+    <th>Número</th>
+    <th>CVC</th>
+    <th>Fecha de caducidad</th>
+    <th>Saldo</th>
+  </tr>
+  {% for almohada in almohadas %}
+  <tr>
+    <td>{{ almohada.id }}</td>
+    <td><a href="/app/misalmohadas/{{ almohada.id }}">{{ almohada.id }} </a></td>
+    <td>{{ almohada.peso }} </td>
+    <td>{{ almohada.altura }}</td>
+    <td>{{ almohada.ancho }}</td>
+    <td>{{ almohada.grosor }}</td>
+    <td>{{ almohada.tacto }}</td>
+    <td>{{ almohada.firmeza }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endif %}
+{% endblock %}

@@ -43,9 +43,9 @@ public class Almohada {
     @Builder.Default
     private Boolean isDeleted = false;
 
-    //Relación con tienda, Una tienda puede tener muchas almohadas y repetidas
-    //Me recomiendo usar otra entidad como stock
-//    @ManyToOne
-//    @JoinColumn(name = "tienda_id")
-//    private Tienda tienda;
+    /*Cambiar por stock despues de implementarlo
+    @ManyToOne
+    @JoinColumn(name = "tienda_id")
+    private Tienda tienda;
+     */
 }

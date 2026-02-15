@@ -2,8 +2,11 @@ package es.carlos.tiendaalm.rest.stocks.models;
 
 import es.carlos.tiendaalm.rest.almohadas.models.Almohada;
 import es.carlos.tiendaalm.rest.tiendas.models.Tienda;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Builder
 @Getter
@@ -27,9 +30,10 @@ public class Stock {
     @JoinColumn(name = "tienda_id")
     private Tienda tienda;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "almohada_id")
-    private Almohada almohada;
+    @OneToMany(mappedBy = "stock")
+    @JsonIgnoreProperties("titular")
+    @ToString.Exclude
+    private List<Almohada> almohada;
 
     @Column(nullable = false)
     private Integer cantidad;

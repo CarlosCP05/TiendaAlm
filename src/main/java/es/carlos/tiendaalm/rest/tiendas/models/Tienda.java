@@ -34,8 +34,8 @@ public class Tienda {
     private Boolean isDeleted = false;
 
 //    //Relacion con stock y almohadas
-//    @OneToMany(mappedBy = "tienda", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToOne(mappedBy = "tienda", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @ToString.Exclude
-//    private List<Stock> stock;
+//    private Stock stock;
 }
 

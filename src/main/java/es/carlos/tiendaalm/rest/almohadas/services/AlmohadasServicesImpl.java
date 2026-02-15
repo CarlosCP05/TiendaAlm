@@ -26,13 +26,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @CacheConfig(cacheNames = {"almohadas"})
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AlmohadaServicesImpl implements AlmohadasService, InitializingBean {
+public class AlmohadasServicesImpl implements AlmohadasService, InitializingBean {
     private final AlmohadasRepository almohadasRepository;
     private final AlmohadaMapper almohadaMapper;
     //*Si creo la entidad tienda* private final Tienda tienda;
@@ -209,4 +210,15 @@ public class AlmohadaServicesImpl implements AlmohadasService, InitializingBean 
             log.error("Error al convertir la notificación a JSON", e);
          }
     }
+
+    @Override
+    public List<Almohada> buscarPorUsuarioId(Long usuarioId) {
+        return almohadasRepository.findByUsuarioId(usuarioId);
+    }
+
+    @Override
+    public Optional<Almohada> buscarPorId(Long id) {
+        return almohadasRepository.findById(id);
+    }
+
 }

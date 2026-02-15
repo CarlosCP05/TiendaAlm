@@ -1,0 +1,32 @@
+{% extends "fragments/layout" %}
+
+{% import "fragments/inputField" %}
+
+{% block body %}
+
+<h2>{% if not modoEditar %}Nueva {% endif %} Almohada</h2>
+<form class="form-horizontal" id="add-almohada-form" method="post"
+      action="{% if modoEditar %}/admin/almohadas/{{almohadaId}}/edit{% else %}/admin/almohadas/new{% endif %}">
+  <input name="{{ csrfParamName }}" type="hidden" value="{{ csrfToken }}">
+  <div class="form-group has-feedback">
+    {{ inputField("almohada", "Identificación", "id", "number", almohada.id, _context) }}
+    {{ inputField("almohada", "Peso", "peso", "number", almohada.peso, _context) }}
+    {{ inputField("almohada", "Altura", "altura", "number", almohada.altura, _context) }}
+    {{ inputField("almohada", "Ancho", "ancho", "number", almohada.ancho, _context) }}
+    {{ inputField("almohada", "Grosor", "ancho", "number", almohada.grosor, _context) }}
+    {{ inputField("almohada", "Tacto", "ancho", "text", almohada.tacto, _context) }}
+    {{ inputField("almohada", "Firmeza", "ancho", "text", almohada.firmeza, _context) }}
+    {% if not modoEditar %}
+<!--    {{ inputField("almohada", "Stock", "stock", "number", almohada.stock.id, _context) }}-->
+    {% endif %}
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button
+        class="btn btn-primary" type="submit">{{ modoEditar ? 'Actualizar Almohada' : 'Añadir Almohada' }}
+      </button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

@@ -47,7 +47,7 @@ public class AlmohadaRestController {
         @RequestParam(defaultValue = "id") String sortBy,
         @RequestParam(defaultValue = "asc") String direction,
         HttpServletRequest request){
-        log.info("Buscando tarjetas por tacto={} y firmeza={}", tacto, firmeza);
+        log.info("Buscando almohadas por tacto={} y firmeza={}", tacto, firmeza);
         Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(request.getRequestURL().toString());
