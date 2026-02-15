@@ -14,10 +14,19 @@ public interface AlmohadasService {
 
     AlmohadaResponseDto findById(Long id);
 
+    Page<AlmohadaResponseDto> findByUsuarioId(Long id, Pageable pageable);
+
+    AlmohadaResponseDto findByUsuarioId(Long usuarioId, Long almohadaId);
+
     AlmohadaResponseDto save(AlmohadaCreateDto almohadaCreateDto);
 
-    //cambiar a AlmohadaUpateDto
+    AlmohadaResponseDto save(AlmohadaCreateDto almohadaCreateDto, Long usuarioId);
+
     AlmohadaResponseDto update(Long id, AlmohadaUpdateDto almohadaUpdateDto);
 
+    AlmohadaResponseDto update(Long id, AlmohadaUpdateDto almohadaUpdateDto, Long usuarioId);
+
     void deleteById(Long id);
+
+    void deleteById(Long id, Long usuarioId);
 }

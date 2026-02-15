@@ -1,4 +1,4 @@
-package es.carlos.tiendaalm.rest.stock.models;
+package es.carlos.tiendaalm.rest.stocks.models;
 
 import es.carlos.tiendaalm.rest.almohadas.models.Almohada;
 import es.carlos.tiendaalm.rest.tiendas.models.Tienda;

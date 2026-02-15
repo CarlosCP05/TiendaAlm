@@ -9,5 +9,7 @@ public record AlmohadaNotificacionResponse(
     Integer ancho,
     Integer grosor,
     Tacto tacto,
-    String firmeza
+    String firmeza,
+    String fechaCreacion,
+    String fechaActualizacion
 ){}

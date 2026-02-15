@@ -14,7 +14,9 @@ public class AlmohadaNotificacionMapper {
                 almohada.getAncho(),
                 almohada.getGrosor(),
                 almohada.getTacto(),
-                almohada.getFirmeza()
+                almohada.getFirmeza(),
+                almohada.getFechaCreacion().toString(),
+                almohada.getFechaActualizacion().toString()
         );
     }
 }

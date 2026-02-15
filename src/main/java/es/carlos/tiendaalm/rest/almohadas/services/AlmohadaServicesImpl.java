@@ -3,6 +3,7 @@ package es.carlos.tiendaalm.rest.almohadas.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.carlos.tiendaalm.rest.almohadas.dto.*;
+import es.carlos.tiendaalm.rest.almohadas.exceptions.AlmohadaBadRequestException;
 import es.carlos.tiendaalm.rest.almohadas.exceptions.AlmohadaNotFoundException;
 import es.carlos.tiendaalm.rest.almohadas.mappers.AlmohadaMapper;
 import es.carlos.tiendaalm.rest.almohadas.models.*;
@@ -78,11 +79,48 @@ public class AlmohadaServicesImpl implements AlmohadasService, InitializingBean 
         return almohadaMapper.toAlmohadaResponseDto(almohadasRepository.findById(id).orElseThrow(() -> new AlmohadaNotFoundException(id)));
     }
 
+    @Override
+    public Page<AlmohadaResponseDto> findByUsuarioId(Long usuarioId, Pageable pageable) {
+        log.info("Obteniendo almohadas del usuario con id: {}", usuarioId);
+        return almohadasRepository.findByUsuarioId(usuarioId, pageable)
+                .map(almohadaMapper::toAlmohadaResponseDto);
+    }
+
+    @Override
+    public AlmohadaResponseDto findByUsuarioId(Long usuarioId, Long almohadaId) {
+        log.info("Obteniendo tarjetas del usuario con id: {}", usuarioId);
+        var almohadas = almohadasRepository.findByUsuarioId(usuarioId);
+        var almohadaEncontrada = almohadas.stream().filter(t ->  t.getId().equals(almohadaId))
+                .findFirst().orElse(null);
+        if (almohadaEncontrada == null) {
+            throw new AlmohadaBadRequestException("La almohada " + almohadaId + " no corresponde a este usuario");
+        }
+        return almohadaMapper.toAlmohadaResponseDto(almohadaEncontrada);
+    }
+
+    //Poner un checkStock cuando este creado
+
+
     @CachePut(key = "#result.id")
     @Override
     public AlmohadaResponseDto save(AlmohadaCreateDto almohadaCreateDto) {
         log.info("Guardando almohada: {}", almohadaCreateDto);
         Almohada almohadaSaved = almohadasRepository.save(almohadaMapper.toAlmohada(almohadaCreateDto));
+        onChange(Notificacion.Tipo.CREATE, almohadaSaved);
+        return almohadaMapper.toAlmohadaResponseDto(almohadaSaved);
+    }
+
+    @Override
+    public AlmohadaResponseDto save(AlmohadaCreateDto almohadaCreateDto, Long usuarioId) {
+        log.info("Guardando tarjeta: {} de usuarioId: {}", almohadaCreateDto, usuarioId);
+        /*  Para cuando este creado Stock, modificar el save anterior tambien
+        Stock stock = checkStock(almohadaCreateDto.getStock());
+        var usuario = stock.getUsuario();
+        if ((usuario != null) && (!usuario.getId().equals(usuarioId))) {
+            throw new TarjetaBadRequestException("El usuario no se corresponde con el titular");
+        }*/
+        Almohada almohadaSaved = almohadasRepository.save(
+                almohadaMapper.toAlmohada(almohadaCreateDto));
         onChange(Notificacion.Tipo.CREATE, almohadaSaved);
         return almohadaMapper.toAlmohadaResponseDto(almohadaSaved);
     }
@@ -97,6 +135,23 @@ public class AlmohadaServicesImpl implements AlmohadasService, InitializingBean 
         return almohadaMapper.toAlmohadaResponseDto(almohadaActual);
     }
 
+    @CachePut(key = "#result.id")
+    @Override
+    public AlmohadaResponseDto update(Long id, AlmohadaUpdateDto almohadaUpdateDto, Long usuarioId) {
+        log.info("Actualizando tarjeta por id: {}", id);
+        var almohadaActual = almohadasRepository.findById(id).orElseThrow(()-> new AlmohadaNotFoundException(id));
+        /*  Para cuando este creado Stock, modificar el update anterior tambien
+        var usuario = almohadaActual.getStock().getTienda().getUsuario();
+        if ((usuario != null) && (!usuario.getId().equals(usuarioId))) {
+            throw new AlmohadaBadRequestException("La almohada " +
+                    almohadaUpdateDto.getId() + " no corresponde a este usuario");
+        }*/
+        Almohada almohadaUpdate =  almohadasRepository.save(
+                almohadaMapper.toAlmohada(almohadaUpdateDto, almohadaActual));
+        onChange(Notificacion.Tipo.UPDATE, almohadaUpdate);
+        return almohadaMapper.toAlmohadaResponseDto(almohadaUpdate);
+    }
+
     @CacheEvict(key = "#id")
     @Override
     public void deleteById(Long id) {
@@ -104,6 +159,21 @@ public class AlmohadaServicesImpl implements AlmohadasService, InitializingBean 
         Almohada almohadaDeleted = almohadasRepository.findById(id).orElseThrow(() -> new AlmohadaNotFoundException(id));
         almohadasRepository.deleteById(id);
         onChange(Notificacion.Tipo.DELETE, almohadaDeleted);
+    }
+
+    @CacheEvict(key = "#id")
+    @Override
+    public void deleteById(Long id, Long usuarioId) {
+        log.debug("Borrando almohada por id: {}", id);
+        Almohada almohadaDeleted = almohadasRepository.findById(id).orElseThrow(()-> new AlmohadaNotFoundException(id));
+        /*  Para cuando este creado Stock, modificar el deleted anterior tambien
+        var usuario = almohadaDeleted.getStock().getTienda().getUsuario();
+        if ((usuario != null) && (!usuario.getId().equals(usuarioId))) {
+            throw new AlmohadaBadRequestException("La almohada " + id + " no corresponde a este usuario");
+        }*/
+        almohadasRepository.deleteById(id);
+        onChange(Notificacion.Tipo.DELETE, almohadaDeleted);
+
     }
 
     void onChange(Notificacion.Tipo tipo, Almohada data) {

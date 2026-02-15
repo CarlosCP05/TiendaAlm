@@ -84,7 +84,7 @@ public class TiendasServiceImpl implements TiendasService {
     public void deleteById(Long id) {
         log.info("Eliminando tienda por id: {}", id);
         Tienda tienda = findById(id);
-        //Usar existalmohada o StockById
+        //Usar existsAlmohada o StockById?
         if (tiendasRepository.existsById(id)) {
             //Tendre que cambiarlo para que funcione con stock? revisar
             String mensaje = "No se puede eliminar el tienda con el id: " + id + " porque tiene un stock asociado";
